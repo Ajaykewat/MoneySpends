@@ -1,0 +1,4 @@
+personal tracker
+with manula data entry with masters
+
+master are types (payment type, credit, debit, payment mode, shedular payment reducer and credited,etc)
