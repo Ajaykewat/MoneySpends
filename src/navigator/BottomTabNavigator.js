@@ -1,11 +1,11 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import DashboardScreen from '../screens/DashboardScreen';
-import AddScreen from '../screens/AddScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { useLinkBuilder, useTheme } from '@react-navigation/native';
 import UniversalIcon from '../components/UniversalIcon';
+import DashboardScreen from '../screens/DashboardScreen';
+import AllTransactionScreen from '../screens/AllTransactionScreen';
 const Tab = createBottomTabNavigator();
 
 function MyTabBar({ state, descriptors, navigation }) {
@@ -43,7 +43,6 @@ function MyTabBar({ state, descriptors, navigation }) {
             target: route.key,
           });
         };
-        console.log('route.name', route.name);
         return (
           <Pressable
             href={buildHref(route.name, route.params)}
@@ -54,36 +53,46 @@ function MyTabBar({ state, descriptors, navigation }) {
             onLongPress={onLongPress}
             style={{
               flex: 1,
-              backgroundColor: 'gray',
+              backgroundColor: 'lightgray',
               padding: 10,
               justifyContent: 'space-evenly',
               alignItems: 'center',
+              borderTopColor: isFocused ? 'green' : 'lightgray',
+              borderTopWidth: 5,
             }}
           >
             {route.name == 'profile' && (
               <UniversalIcon
-                color={isFocused ? 'white' : 'black'}
-                type="Feather"
-                name={'user'}
+                color={isFocused ? 'green' : 'black'}
+                size={isFocused ? 30 : 25}
+                type="FontAwesome"
+                name={isFocused ? 'user' : 'user-o'}
               />
             )}
 
-            {route.name == 'addExpenses' && (
+            {route.name == 'AllTransaction' && (
               <UniversalIcon
-                color={isFocused ? 'white' : 'black'}
+                color={isFocused ? 'green' : 'black'}
+                size={isFocused ? 30 : 25}
                 type="Ionicons"
-                name={'add'}
+                name={isFocused ? 'add' : 'add-outline'}
               />
             )}
             {route.name == 'dashboard' && (
               <UniversalIcon
-                color={isFocused ? 'white' : 'black'}
-                type="Entypo"
-                name={'bar-graph'}
+                color={isFocused ? 'green' : 'black'}
+                size={isFocused ? 30 : 25}
+                type="Ionicons"
+                name={isFocused ? 'bar-chart' : 'bar-chart-outline'}
               />
             )}
 
-            <Text style={{ color: isFocused ? 'white' : 'black' }}>
+            <Text
+              style={{
+                color: isFocused ? 'green' : 'black',
+                fontSize: isFocused ? 18 : 14,
+              }}
+            >
               {label}
             </Text>
           </Pressable>
@@ -95,10 +104,25 @@ function MyTabBar({ state, descriptors, navigation }) {
 
 const BottomTabNavigator = () => {
   return (
-    <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
-      <Tab.Screen name="dashboard" component={DashboardScreen} />
-      <Tab.Screen name="addExpenses" component={AddScreen} />
-      <Tab.Screen name="profile" component={ProfileScreen} />
+    <Tab.Navigator
+      initialRouteName="AllTransaction"
+      tabBar={props => <MyTabBar {...props} />}
+    >
+      <Tab.Screen
+        name="dashboard"
+        component={DashboardScreen}
+        options={{ title: 'Dashboard' }}
+      />
+      <Tab.Screen
+        name="AllTransaction"
+        component={AllTransactionScreen}
+        options={{ title: 'Transaction' }}
+      />
+      <Tab.Screen
+        name="profile"
+        component={ProfileScreen}
+        options={{ title: 'Profile' }}
+      />
     </Tab.Navigator>
   );
 };
